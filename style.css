@@ -1,0 +1,350 @@
+/*
+  EPUB‑FRIENDLY STYLE.CSS
+  Works for both web (GitHub Pages) and EPUB3 readers.
+  Design goals
+  - Pure CSS, no external fonts or assets
+  - Conservative features for broad EPUB compatibility
+  - Accessible typography with rem units
+  - Robust defaults for print/epub pagination
+  - Dark‑mode support on web (ignored safely by most EPUB readers)
+
+  Notes
+  - Many EPUB readers override margins and fonts; this file aims to degrade gracefully.
+  - Keep your HTML semantic (h1–h6, p, figure, figcaption, blockquote, code, pre, table, nav[role="doc-toc"], etc.).
+  - For page breaks in EPUB, add class "page-break" where you want a hard break.
+  - For footnotes, use epub:type attributes (see rules near the end).
+*/
+
+/* ==========================================
+   0) Root + Reset (safe for EPUB)
+   ========================================== */
+html {
+  /* Base size = 16px; users can scale. */
+  font-size: 100%;
+  -webkit-text-size-adjust: 100%;
+}
+
+:root {
+  --font-serif: "Gowun Batang";
+  --font-mono: "Noto Sans Mono";
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+margin: 0 auto;
+  padding: 1rem;
+  max-width: 42rem;
+  line-height: 1.6;
+  font-family: var(--font-serif);
+  font-kerning: normal;
+  font-weight: 400;
+  -webkit-font-smoothing: subpixel-antialiased;
+  -moz-osx-font-smoothing: auto;
+  text-rendering: optimizeLegibility;
+  hyphens: auto;
+  -epub-hyphens: auto;
+  text-align: justify;
+}
+
+/* Respect user prefers-reduced-motion on web */
+@media (prefers-reduced-motion: reduce) {
+  * { scroll-behavior: auto !important; }
+}
+
+/* ==========================================
+   1) Headings & basic text
+   ========================================== */
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 2rem 0 1rem;
+  line-height: 1.25;
+  font-family: var(--font-serif);
+  font-weight: 700;
+}
+
+h1 { font-size: 1.875rem; /* 30px */ }
+h2 { font-size: 1.5rem;   /* 24px */ }
+h3 { font-size: 1.5rem;  /* 20px */ }
+h4 { font-size: 1.5rem; /* 18px */ }
+h5 { font-size: 1.5rem;     /* 16px */ }
+h6 { font-size: 1.5rem; /* 14px */ }
+
+h2, h3, h4 {
+  border-bottom: 2px solid;
+}
+
+p { margin: 0 0 1rem; }
+
+strong, b { font-weight: 700; }
+
+em, i { font-style: italic; }
+
+small { font-size: 0.875em; }
+
+hr {
+  border: 0;
+  border-top: 1px solid;
+  margin: 2rem 0;
+}
+
+/* Drop cap (optional). Apply .dropcap to the first paragraph of a chapter. */
+.dropcap:first-letter {
+  float: left;
+  font-size: 3.5rem;
+  line-height: 0.9;
+  padding-right: 0.25rem;
+  padding-top: 0.2rem;
+  font-weight: 700;
+}
+
+/* ==========================================
+   2) Links, lists, blockquotes
+   ========================================== */
+
+a {
+  text-decoration: underline;
+}
+
+a:focus, a:hover { outline: none; }
+
+ul, ol {
+  margin: 0 0 1rem 1.5rem;
+  padding: 0;
+}
+
+li { margin: 0.25rem 0; }
+
+blockquote {
+  margin: 1.5rem 0;
+  padding: 0.75rem 1rem;
+  border-left: 4px solid;
+}
+
+blockquote footer,
+figcaption {
+  font-size: 0.875em;
+}
+
+/* ==========================================
+   3) Images, figures, media
+   ========================================== */
+
+img, svg, video {
+  max-width: 100%;
+  height: auto;
+}
+
+figure { margin: 1.5rem 0; }
+
+figcaption { margin-top: 0.5rem; }
+
+/* Avoid side-by-side floats in EPUB; keep simple. */
+.image-center { display: block; margin: 1rem auto; text-align: center; }
+.image-right  { float: right; margin: 0.25rem 0 1rem 1rem; }
+.image-left   { float: left;  margin: 0.25rem 1rem 1rem 0; }
+
+/* Clear floats to prevent overlap with following content */
+.clearfix::after { content: ""; display: table; clear: both; }
+
+/* ==========================================
+   4) Code, pre, kbd
+   ========================================== */
+
+code, kbd, samp { font-family: var(--font-mono); font-size: 0.95em; }
+
+pre {
+  font-family: var(--font-mono);
+  font-size: 0.95em;
+  line-height: 1.5;
+  overflow-x: auto;
+  padding: 0.75rem 1rem;
+  border: 1px solid;
+  border-radius: 6px;
+  margin: 1rem 0;
+}
+
+/* Simple inline code background */
+code { padding: 0.1em 0.25em; border-radius: 4px; }
+
+/* ==========================================
+   5) Tables (responsive-ish & EPUB-safe)
+   ========================================== */
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+}
+
+thead th { border-bottom: 2px solid; }
+
+td, th {
+  text-align: left;
+  padding: 0.5rem;
+  border-bottom: 1px solid;
+}
+
+/* Allow horizontal scroll on narrow screens */
+.table-wrap { width: 100%; overflow-x: auto; }
+
+/* ==========================================
+   6) Notes, asides, admonitions (no icons)
+   ========================================== */
+
+.note, .tip, .warn {
+  border: 1px solid;
+  border-left-width: 4px;
+  padding: 0.75rem 1rem;
+  margin: 1rem 0;
+}
+
+.note { border-left-color: #3b82f6; }
+.tip  { border-left-color: #10b981; }
+.warn { border-left-color: #f59e0b; }
+
+/* ==========================================
+   7) Navigation, ToC (works in web + EPUB)
+   ========================================== */
+
+nav[role="doc-toc"], nav.toc {
+  border: 1px solid;
+  padding: 1rem;
+  margin: 1.5rem 0;
+}
+
+nav[role="doc-toc"] ol,
+nav[role="doc-toc"] ul { margin: 0; }
+
+/* ==========================================
+   8) Page breaks & print/EPUB specific
+   ========================================== */
+
+/* Class to force a new page in EPUB/print */
+.page-break {
+  page-break-before: always; /* legacy */
+  break-before: page;        /* modern */
+}
+
+/* Avoid single lines at page boundaries (some readers obey) */
+p, blockquote, ul, ol, table, pre {
+  widows: 2;
+  orphans: 2;
+}
+
+/* First-page / chapter-title nicer spacing when printed/EPUB */
+.chapter-title {
+  margin-top: 20vh;
+  text-align: center;
+}
+
+/* Print/EPUB page box if supported */
+@page {
+  margin: 1in 0.8in; /* many readers override; still safe */
+}
+
+/***************************************
+  9) EPUB: footnotes via epub:type
+***************************************/
+/* Namespace for epub:type selectors */
+@namespace epub url("http://www.idpf.org/2007/ops");
+
+/* Footnote body */
+[epub|type~="footnote"],
+[role~="doc-footnote"] {
+  font-size: 0.95em;
+  line-height: 1.5;
+  margin: 0.75rem 0;
+}
+
+/* Superscript note references */
+[epub|type~="noteref"],
+[role~="doc-noteref"] {
+  vertical-align: super;
+  font-size: 0.75em;
+  text-decoration: none;
+}
+
+/* Endnotes container */
+[epub|type~="endnotes"],
+[role~="doc-endnotes"] { border-top: 1px solid; padding-top: 1rem; margin-top: 2rem; }
+
+/***************************************
+  10) Poetry & verse helpers
+***************************************/
+
+.verse { margin-left: 1rem; }
+.verse p { margin: 0; }
+.verse .indent { text-indent: 2em; }
+
+/***************************************
+  11) Language & quote marks
+***************************************/
+
+q {
+  quotes: "“" "”" "‘" "’";
+  text-decoration: underline dotted;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.4em;
+}
+q:before { content: open-quote; }
+q:after  { content: close-quote; }
+
+/***************************************
+  12) Utility classes
+***************************************/
+
+.center { text-align: center; }
+.right  { text-align: right; }
+.left   { text-align: left; }
+.small  { font-size: 0.875em; }
+.lead   { font-size: 1.125rem; line-height: 1.7; }
+
+/* Indent first line (apply to paragraphs in narrative works) */
+.indent p { text-indent: 1.5em; margin-top: 0; }
+
+/* No-indent paragraphs after headings or breaks */
+h1 + p, h2 + p, h3 + p, .page-break + p { text-indent: 0; }
+
+/***************************************
+  13) Web-only niceties (ignored by most EPUB)
+***************************************/
+
+@media screen {
+  /* Smooth scrolling for web */
+  html { scroll-behavior: smooth; }
+
+  /* Heading anchor links with scroll offset */
+ h1, h2, h3, h4, h5, h6 {
+    scroll-margin-top: 20px;
+  }
+
+  /* Heading link styles */
+  .heading-link {
+    color: inherit;
+    text-decoration: none;
+    display: block;
+    cursor: pointer;
+  }
+
+  .heading-link:hover {
+    opacity: 0.7;
+  }
+
+  /* Show link icon on hover */
+  .heading-link:hover::before {
+    content: "🔗 ";
+    margin-right: 5px;
+  }
+
+}
+
+/* Constrain wide code blocks on huge screens */
+@media screen and (min-width: 60rem) {
+  pre { max-width: 60ch; }
+}
+
+/* Focus ring for keyboard users (web) */
+:focus-visible { outline: 2px dashed; outline-offset: 2px; }
