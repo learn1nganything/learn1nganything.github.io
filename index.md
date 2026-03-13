@@ -8,3 +8,4 @@ lang: "ko"
 
 [최선의 삶](bestlife)
 [라코의 사연](storyoflaco)
+[반복](repeat)
