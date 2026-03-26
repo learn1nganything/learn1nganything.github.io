@@ -1,7 +1,7 @@
 ---
 layout: default
 title: 최선의 삶
-description: 최선의 삶
+description: 2020년 12월에 씀
 lang: ko
 ---
 제목: 최선의 삶  
