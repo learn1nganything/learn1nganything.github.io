@@ -38,6 +38,7 @@ margin: 0 auto;
   padding: 1rem;
   max-width: 42rem;
   line-height: 1.6;
+  font-size: 1.125rem;
   font-family: var(--font-serif);
   font-kerning: normal;
   font-weight: 400;
