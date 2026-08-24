@@ -1,5 +1,5 @@
 ---
-description: 반복(시)
+description: 2025년 6월에 씀
 lang: ko
 layout: default
 title: 반복

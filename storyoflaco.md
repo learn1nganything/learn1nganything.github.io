@@ -1,5 +1,5 @@
 ---
-description: 라코의 사연
+description: 2025년 11월에 씀.
 lang: ko
 layout: default
 title: 라코의 사연
