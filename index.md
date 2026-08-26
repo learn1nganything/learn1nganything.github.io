@@ -15,7 +15,3 @@ lang: "ko"
 - [제대로](properly)
 - [어라 나 등에 지퍼가 달려 있어](box)
 - [반복](repeat)
-
-### 이야기
-
-- [라코의 사연](storyoflaco)
